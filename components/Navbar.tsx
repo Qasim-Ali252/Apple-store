@@ -34,14 +34,14 @@ const Navbar = () => {
 </div>
         
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center  w-[21.94rem] h-[1.19rem] gap-[3.25rem] ">
+        <div className="hidden md:flex items-center  w-[22.94rem] h-[1.19rem] gap-[3.25rem] ">
           <Link href="/" className="text-#000000 hover:text-black font-medium text-base">
             Home
           </Link>
           <Link href="/about" className="text-#000000 hover:text-black font-medium opacity-30 text-base">
             About
           </Link>
-          <Link href="/contact" className="text-#000000 hover:text-black font-medium w-[78px] opacity-30 text-sm">
+          <Link href="/contact" className="text-#000000 hover:text-black font-medium  opacity-30 text-sm">
             Contact Us
           </Link>
           <Link href="/blog" className="text-#000000 hover:text-black font-medium opacity-30 text-base">
