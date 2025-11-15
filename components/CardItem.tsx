@@ -18,20 +18,21 @@ const CardItem: React.FC = () => {
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
   const [activeTab, setActiveTab] = useState<"new" | "bestseller" | "featured">("new");
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const response = await fetch("https://api.escuelajs.co/api/v1/products");
-        const data: Product[] = await response.json();
-        setAllProducts(data);
-        setDisplayedProducts(data.slice(0, 8)); // Default - New Arrival
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
+ useEffect(() => {
+  async function fetchProducts() {
+    try {
+      const response = await fetch("https://dummyjson.com/products");
+      const data = await response.json();
+      const products: Product[] = data.products; // Access products array
+      setAllProducts(products);
+      setDisplayedProducts(products.slice(0, 8)); // Default - New Arrival
+    } catch (error) {
+      console.error("Error fetching products:", error);
     }
+  }
 
-    fetchProducts();
-  }, []);
+  fetchProducts();
+}, []);
 
   // Function to change product sets based on tab
   const handleTabChange = (tab: "new" | "bestseller" | "featured") => {
@@ -102,6 +103,7 @@ const CardItem: React.FC = () => {
           displayedProducts.map((product) => (
             <CardList
               key={product.id}
+              id={product.id}
               imageSrc={product.images[0]}
               title={product.title}
               price={`$${product.price}`}

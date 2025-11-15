@@ -2,7 +2,9 @@
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "@/components/Footer";
+import { WishlistProvider } from "@/components/WishlistContext";
 
+import { CartProvider } from "./context/CartContext";
 export default function RootLayout({
   children,
 }: {
@@ -11,6 +13,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <CartProvider>
+            <WishlistProvider>
         <Navbar />
         {children}
            
@@ -18,6 +22,8 @@ export default function RootLayout({
             <footer>
             <Footer/>
       </footer>
+         </WishlistProvider>
+         </CartProvider>
       </body>
      
       

@@ -50,7 +50,7 @@ const BrandFilter: React.FC = () => {
               checked={selectedBrands.includes(b.name)}
               onChange={() => toggleBrand(b.name)}
             />
-            <span className="flex justify-between w-full text-sm">
+            <span className="flex gap-1 w-full text-sm">
               {b.name}
               <span className="text-gray-400">{b.count}</span>
             </span>

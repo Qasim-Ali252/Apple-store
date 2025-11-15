@@ -6,8 +6,10 @@ const Footer = () => {
         <div className='w-[70rem] h-[16rem] flex '>
            {/* cyber */}
            <div>
-            <div>  <img className=' mb-6 w-[65.4px] h-[22.87px]' src="/logofooter.png" alt="" /> </div>
+            <Link href="/">
            
+            <div>  <img className=' mb-6 w-[65.4px] h-[22.87px]' src="/logofooter.png" alt="" /> </div>
+              </Link>
             <div className='text-[14px] leading-[171%] text-medium tracking-[0%] font-medium text-[#CFCFCF] w-[26rem] h-[6rem] '>We are a residential interior design firm located in Portland. Our boutique-studio offers more than</div>
            </div>
            {/* lists */}

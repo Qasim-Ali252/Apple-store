@@ -9,11 +9,12 @@ interface CheckboxItemProps {
 }
 
 const CheckboxItem = ({ label, count, checked, onChange }: CheckboxItemProps) => (
-  <label className="flex items-center gap-2 text-sm">
-    <input type="checkbox" checked={checked} onChange={onChange} />
+  <label  className={`flex items-center gap-2 text-sm cursor-pointer px-3 py-2 rounded 
+      ${checked ? "bg-black text-white" : "bg-white text-black"}`}>
+    <input type="checkbox" checked={checked} onChange={onChange}   />
     <span className="flex ">
       {label}
-      {count && <span className="text-gray-400">{count}</span>}
+      {count && <span className="text-gray-400 ">{count}</span>}
     </span>
   </label>
 );

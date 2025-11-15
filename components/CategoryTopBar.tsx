@@ -1,20 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 
-const CategoryTopBar = () => {
-  const [sortOption, setSortOption] = useState("rating");
-  const [selectedProducts] = useState(85); // later you can make this dynamic
+interface CategoryTopBarProps {
+  totalProducts: number;
+  sortOption: string;
+  setSortOption: (option: string) => void;
+}
 
+const CategoryTopBar = ({ totalProducts, sortOption, setSortOption }: CategoryTopBarProps) => {
   return (
-    <div className="flex justify-between items-center  pb-4 mb-6 ml-8 mt-6 w-[51.9rem] h-[2.5rem]">
+    <div className="flex justify-between items-center pb-4 mb-6   w-[51.9rem] h-[2.5rem]">
       {/* Left side: product count */}
       <h2 className="text-gray-700 font-medium text-lg">
-        Selected Products: <span className="font-semibold">{selectedProducts}</span>
+        Selected Products: <span className="font-semibold">{totalProducts}</span>
       </h2>
 
       {/* Right side: sort dropdown */}
       <div className="flex items-center gap-2">
-        <label htmlFor="sort" className="text-gray-600 text-sm">By</label>
+        <label htmlFor="sort" className="text-gray-600 text-sm">Sort by</label>
         <select
           id="sort"
           value={sortOption}

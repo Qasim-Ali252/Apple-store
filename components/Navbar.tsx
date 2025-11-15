@@ -1,69 +1,96 @@
-
-
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Heart, ShoppingCart, User, Menu, X, Search } from "lucide-react";
+import { FaHeart } from "react-icons/fa";
+
+import { useWishlist } from "@/components/WishlistContext";
 
 const Navbar = () => {
+  const { wishlist } = useWishlist();
   const [isOpen, setIsOpen] = useState(false);
 
+  // ✅ Hooks must be used only here (TOP LEVEL)
+
   return (
-    <nav className=" w-[90rem] h-[5.5rem] flex items-center  px-8 py-4 bg-white shadow-md justify-between pt-[1rem] pr-[10rem] pb-[1rem] pl-[10rem] ">
+    <nav className="w-[90rem] h-[5.5rem] flex items-center px-8 py-4 bg-white shadow-md justify-between pt-[1rem] pr-[10rem] pb-[1rem] pl-[10rem]">
 
-      
-        {/* Logo */}
-        <div >
-        <div className="gap-[0.625rem] w-[4.09rem] h-[1.43rem]"><img src="/Logo Vector.svg" alt="" /></div>
-       </div>
-
-
-        {/* Search Bar */}
-      
-       <div className="hidden md:flex items-center ">
-    <div className="relative ">
-    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5 mr-1" />
-    <input
-      type="text"
-      placeholder="Search..."
-      className=" gap-[0.5rem] flex items-center bg-gray-200 p-[2rem] rounded-[8px] w-[23.25rem] h-[3.5rem] focus:outline-none "
-    />
-  </div>
-</div>
-        
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center  w-[22.94rem] h-[1.19rem] gap-[3.25rem] ">
-          <Link href="/" className="text-#000000 hover:text-black font-medium text-base">
-            Home
-          </Link>
-          <Link href="/about" className="text-#000000 hover:text-black font-medium opacity-30 text-base">
-            About
-          </Link>
-          <Link href="/contact" className="text-#000000 hover:text-black font-medium  opacity-30 text-sm">
-            Contact Us
-          </Link>
-          <Link href="/blog" className="text-#000000 hover:text-black font-medium opacity-30 text-base">
-            Blog
-          </Link>
+      {/* Logo */}
+      <div>
+        <Link href="/">
+       
+        <div className="gap-[0.625rem] w-[4.09rem] h-[1.43rem]">
+          <img src="/Logo Vector.svg" alt="Logo" />
         </div>
+         </Link>
+      </div>
 
-        {/* Icons */}
-        <div className="flex items-center w-[9rem] h-[2rem] gap-[1.5rem]">
-          <Heart className="w-[2rem] h-[2rem] text-gray-700 cursor-pointer hover:text-black" />
-          <ShoppingCart className="w-[2rem] h-[2rem] text-gray-700 cursor-pointer hover:text-black" />
-          <User className="w-[2rem] h-[2rem] text-gray-700 cursor-pointer hover:text-black" />
-
-          {/* Mobile Menu Button */}
-          <button
-            className="md:hidden focus:outline-none"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+      {/* Search Bar */}
+      <div className="hidden md:flex items-center">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-5 h-5 mr-1" />
+          <input
+            type="text"
+            placeholder="Search..."
+            className="gap-[0.5rem] flex items-center bg-gray-200 p-[2rem] rounded-[8px] w-[23.25rem] h-[3.5rem] focus:outline-none"
+          />
         </div>
-      
+      </div>
+
+      {/* Desktop Menu */}
+      <div className="hidden md:flex items-center w-[22.94rem] h-[1.19rem] gap-[3.25rem]">
+        <Link href="/" className="text-#000000 hover:text-black font-medium text-base">
+          Home
+        </Link>
+        <Link href="/about" className="text-#000000 hover:text-black font-medium opacity-30 text-base">
+          About
+        </Link>
+        <Link href="/contact" className="text-#000000 hover:text-black font-medium opacity-30 text-sm">
+          Contact Us
+        </Link>
+        <Link href="/blog" className="text-#000000 hover:text-black font-medium opacity-30 text-base">
+          Blog
+        </Link>
+      </div>
+
+      {/* Icons */}
+      <div className="flex items-center w-[9rem] h-[2rem] gap-[1.5rem] relative">
+
+        {/* ❤️ Wishlist Icon */}
+        <Link href="/WishlistPage">
+          <div className="relative cursor-pointer">
+
+            {wishlist.length > 0 ? (
+              <FaHeart className="w-8 h-8 text-red-500 transition-all duration-200" />
+            ) : (
+              <FaHeart className="w-8 h-8 text-gray-700 hover:text-black transition-all duration-200" />
+            )}
+
+            {/* Counter badge */}
+            {wishlist.length > 0 && (
+              <span className="absolute -top-2 -right-2 bg-orange-50 text-black font-medium text-[14px] w-5 h-5 rounded-full flex items-center justify-center">
+                {wishlist.length}
+              </span>
+            )}
+          </div>
+        </Link>
+
+        {/* 🛒 Cart */}
+        <ShoppingCart className="w-[2rem] h-[2rem] text-gray-700 cursor-pointer hover:text-black" />
+
+        {/* 👤 User */}
+        <User className="w-[2rem] h-[2rem] text-gray-700 cursor-pointer hover:text-black" />
+
+        {/* ☰ Mobile Menu Button */}
+        <button
+          className="md:hidden focus:outline-none"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
 
       {/* Mobile Dropdown */}
       {isOpen && (
