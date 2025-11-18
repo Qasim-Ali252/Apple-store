@@ -1,5 +1,6 @@
 // app/products/[category]/[id]/page.tsx
 import ProductDetailsClient from "./ProductDetailsClient";
+import Reviews from "./reviews";
 
 interface PageProps {
   params: Promise<{
@@ -17,6 +18,7 @@ export default async function ProductPage({ params }: PageProps) {
     .then((res) => res.json());
 
   return (
+    <>
     <ProductDetailsClient
       id={id}
       category={category}
@@ -26,5 +28,10 @@ export default async function ProductPage({ params }: PageProps) {
       reviews={product.reviews}
 
     />
+        <div>
+      {/* product details */}
+      <Reviews id={id} />
+    </div>
+    </>
   );
 }

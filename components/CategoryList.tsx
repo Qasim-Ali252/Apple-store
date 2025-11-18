@@ -43,7 +43,7 @@ const CategoryList: React.FC = () => {
         <div className="font-medium text-[24px] leading-8 tracking-[1%] text-black">
           Browse By Category
         </div>
-
+             
         {/* ✅ Navigation buttons */}
         <div className="w-[80px] h-[32px] gap-[16px] flex items-center">
           <button
