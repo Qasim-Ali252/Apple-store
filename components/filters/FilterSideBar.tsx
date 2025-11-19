@@ -34,12 +34,12 @@ const FilterSideBar: React.FC<FilterSideBarProps> = ({ products=[], selectedBran
   // Get unique brands from products passed from page.tsx
   const brands = Array.from(new Set(products.map((p) => p.brand)));
 
-   const brandCounts = products.reduce((acc, product) => {
+  const brandCounts = products.reduce((acc: Record<string, number>, product) => {
     acc[product.brand] = (acc[product.brand] || 0) + 1;
     return acc;
-  }, {});
+  }, {} as Record<string, number>);
 
-  const handleBrandChange = (brand) => {
+  const handleBrandChange = (brand: string) => {
     setSelectedBrands((prev) =>
       prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
     );
