@@ -1,4 +1,5 @@
 // app/products/[category]/[id]/page.tsx
+import Footer from "@/components/Footer";
 import ProductDetailsClient from "./ProductDetailsClient";
 import Reviews from "./reviews";
 
@@ -32,6 +33,7 @@ export default async function ProductPage({ params }: PageProps) {
       {/* product details */}
       <Reviews id={id} />
     </div>
+    {/* <div><Footer /></div> */}
     </>
   );
 }

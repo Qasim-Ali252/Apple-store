@@ -8,9 +8,7 @@ interface Product {
   title: string;
   price: number;
   images: string[];
-  category: {
-    name: string;
-  };
+  category: string;
 }
 
 const CardItem: React.FC = () => {
@@ -107,6 +105,7 @@ const CardItem: React.FC = () => {
               imageSrc={product.images[0]}
               title={product.title}
               price={`$${product.price}`}
+              category={product.category}
             />
           ))
         ) : (

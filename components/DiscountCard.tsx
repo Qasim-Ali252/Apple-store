@@ -7,6 +7,7 @@ interface Product {
   title: string;
   price: number;
   images: string[];
+  category: string;
 }
 
 const DiscountCard: React.FC = () => {
@@ -48,6 +49,7 @@ const DiscountCard: React.FC = () => {
             imageSrc={product.images[0]}
             title={product.title}
             price={`$${product.price}`}
+            category={product.category}
           />
         ))}
       </div>

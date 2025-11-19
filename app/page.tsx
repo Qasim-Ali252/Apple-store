@@ -10,10 +10,11 @@ import SaleCard from '@/components/SaleCard'
 const Home = () => {
   return (
     <div>
-    
       <HeroSection />
       <ProductCard/>
-      <CategoryList/>
+      <div id="browse-category">
+        <CategoryList/>
+      </div>
       <CardItem />
       <Products/>
       <DiscountCard />

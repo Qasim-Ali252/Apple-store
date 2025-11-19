@@ -22,11 +22,11 @@ export default function CategoryLayout({ children }: { children: React.ReactNode
   }, [id]);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <BreadcrumbClient productName={product?.title || ""} />
-      <div className="flex w-[90rem] h-[97.5rem]">
-        <div className="flex ml-40 gap-8 w-[69.9375rem] h-[92.5rem]">
-          <div>{children}</div>
+      <div className="w-full max-w-[90rem] mx-auto px-4 md:px-8 lg:px-40">
+        <div className="w-full">
+          {children}
         </div>
       </div>
     </div>

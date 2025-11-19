@@ -1,13 +1,14 @@
 "use client";
 
 import RelatedProducts from "@/components/relatedProducts";
-import relatedProducts from "@/components/relatedProducts";
 import { useEffect, useState } from "react";
 
 export default function Reviews({ id }: { id: string }) {
   const [product, setProduct] = useState<any>(null);
   const [related, setRelated] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAllReviews, setShowAllReviews] = useState(false);
+  const INITIAL_REVIEWS_COUNT = 3;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -41,13 +42,15 @@ export default function Reviews({ id }: { id: string }) {
   if (!product?.reviews) return <p>No reviews found.</p>;
 
   const reviews = product.reviews;
+  const displayedReviews = showAllReviews ? reviews : reviews.slice(0, INITIAL_REVIEWS_COUNT);
+  const hasMoreReviews = reviews.length > INITIAL_REVIEWS_COUNT;
 
   const breakdown = {
-    excellent: reviews.filter((r) => r.rating >= 5).length,
-    good: reviews.filter((r) => r.rating === 4).length,
-    average: reviews.filter((r) => r.rating === 3).length,
-    below: reviews.filter((r) => r.rating === 2).length,
-    poor: reviews.filter((r) => r.rating === 1).length,
+    excellent: reviews.filter((r: any) => r.rating >= 5).length,
+    good: reviews.filter((r: any) => r.rating === 4).length,
+    average: reviews.filter((r: any) => r.rating === 3).length,
+    below: reviews.filter((r: any) => r.rating === 2).length,
+    poor: reviews.filter((r: any) => r.rating === 1).length,
   };
 
   const total = reviews.length;
@@ -58,9 +61,9 @@ export default function Reviews({ id }: { id: string }) {
   return (
     <>
       <div className="w-full max-w-5xl mx-auto py-10 px-5 space-y-10 mt-[88px]">
-        <span className="font-medium text-[24px] leading-8 text-black">
+        <h2 className="font-medium text-[24px] leading-8 text-black">
           Reviews
-        </span>
+        </h2>
 
         {/* Rating Summary */}
         <div className="flex flex-col md:flex-row gap-10">
@@ -113,16 +116,26 @@ export default function Reviews({ id }: { id: string }) {
 
         {/* Reviews List */}
         <div className="gap-6">
-          {reviews.map((r: any, i: number) => (
+          {displayedReviews.map((r: any, i: number) => (
             <div
               key={i}
               className="p-6 bg-[#FAFAFA] mb-6 rounded-lg flex gap-4"
             >
-              <img
-                src={r.reviewerProfileImage}
-                className="w-12 h-12 rounded-full object-cover"
-                alt=""
-              />
+              {r.reviewerProfileImage ? (
+                <img
+                  src={r.reviewerProfileImage}
+                  className="w-12 h-12 rounded-full object-cover bg-gray-200"
+                  alt={r.reviewerName}
+                  onError={(e) => {
+                    // Fallback if image fails to load
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                  }}
+                />
+              ) : null}
+              <div className={`w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-lg ${r.reviewerProfileImage ? 'hidden' : ''}`}>
+                {r.reviewerName?.charAt(0).toUpperCase() || '?'}
+              </div>
 
               <div className="flex-1">
                 <div className="flex justify-between items-center">
@@ -146,13 +159,22 @@ export default function Reviews({ id }: { id: string }) {
           ))}
         </div>
 
-        <button className="mx-auto block px-6 py-2 border rounded-full text-sm hover:bg-gray-100">
-          View More
-        </button>
+        {/* View More / View Less Button */}
+        {hasMoreReviews && (
+          <button 
+            onClick={() => setShowAllReviews(!showAllReviews)}
+            className="mx-auto block px-6 py-2 border border-gray-300 rounded-full text-sm hover:bg-gray-100 transition-colors"
+          >
+            {showAllReviews ? "View Less" : `View More (${reviews.length - INITIAL_REVIEWS_COUNT} more)`}
+          </button>
+        )}
       </div>
 
       {/* Related products */}
       <RelatedProducts products={related} />
+        
     </>
+    
   );
 }
+

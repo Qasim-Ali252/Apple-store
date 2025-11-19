@@ -5,40 +5,75 @@ import { useParams, useRouter } from "next/navigation";
 export default function Breadcrumb({ productName }: { productName?: string }) {
   const router = useRouter();
   const params = useParams();
-  const category = params?.category;
-  console.log("Breadcrumb productName:", productName);
+  const category = params?.category as string;
 
-  const handlehomeclick = () => router.push("/");
-  const handlecatalogclick = () => router.push("/products");
+  const handleHomeClick = () => {
+    router.push("/");
+  };
+
+  const handleCatalogClick = () => {
+    // Scroll to Browse By Category section on home page
+    router.push("/#browse-category");
+    // Small delay to ensure page loads before scrolling
+    setTimeout(() => {
+      const element = document.getElementById("browse-category");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
+  };
+
+  const handleCategoryClick = () => {
+    if (category) {
+      router.push(`/products/${category}`);
+    }
+  };
 
   return (
-    <div className="w-[90rem] h-[6.5rem] gap-[16px] flex pt-10 pr-40 pb-10 pl-40">
+    <div className="w-full max-w-[90rem] mx-auto px-4 md:px-8 lg:px-40 py-6 md:py-10">
+      <div className="flex flex-wrap items-center gap-2">
+        {/* Home */}
+        <button
+          onClick={handleHomeClick}
+          className="text-sm md:text-base font-medium text-gray-400 hover:text-black transition-colors cursor-pointer"
+        >
+          Home
+        </button>
+        <span className="text-gray-400">&gt;</span>
 
-      <span
-        onClick={handlehomeclick}
-        className="text-[16px] leading-4 font-medium tracking-normal text-[#A4A4A4] cursor-pointer hover:text-black"
-      >
-        Home {">"}
-      </span>
+        {/* Catalog */}
+        <button
+          onClick={handleCatalogClick}
+          className="text-sm md:text-base font-medium text-gray-400 hover:text-black transition-colors cursor-pointer"
+        >
+          Catalog
+        </button>
+        <span className="text-gray-400">&gt;</span>
 
-      <span
-        onClick={handlecatalogclick}
-        className="text-[16px] leading-4 font-medium tracking-normal text-[#A4A4A4] cursor-pointer hover:text-black"
-      >
-        Catalog {">"}
-      </span>
+        {/* Category - Clickable if we're on a product page */}
+        {category && (
+          <>
+            <button
+              onClick={handleCategoryClick}
+              className={`text-sm md:text-base font-medium transition-colors capitalize ${
+                productName 
+                  ? "text-gray-400 hover:text-black cursor-pointer" 
+                  : "text-black cursor-default"
+              }`}
+            >
+              {category.replace(/-/g, ' ')}
+            </button>
+            {productName && <span className="text-gray-400">&gt;</span>}
+          </>
+        )}
 
-      {/* Category */}
-      <span className="text-[16px] leading-4 font-medium tracking-normal text-black">
-        {category}
-      </span>
-
-      {/* Product name — only if we are on the product page */}
-      {productName && (
-        <span className="text-[16px] leading-4 font-medium tracking-normal text-black">
-          {" > "} {productName}
-        </span>
-      )}
+        {/* Product name — only if we are on the product page */}
+        {productName && (
+          <span className="text-sm md:text-base font-medium text-black">
+            {productName}
+          </span>
+        )}
+      </div>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useWishlist } from "@/components/WishlistContext";
+import { useCart } from "@/app/context/CartContext";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 // import DetailsSection from "@/components/DetailsSection";
@@ -31,7 +32,9 @@ export default function ProductDetailsClient({ id}: ProductDetailsClientProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string>("");
+  const [quantity, setQuantity] = useState(1);
   const { wishlist, toggleWishlist } = useWishlist();
+  const { addToCart } = useCart();
   const router = useRouter();
 
   useEffect(() => {
@@ -78,10 +81,9 @@ export default function ProductDetailsClient({ id}: ProductDetailsClientProps) {
     : null;
 
   return (
-          <div>
-
-         
-    <div className="max-w-6xl  p-6 grid grid-cols-1 md:grid-cols-2 gap-10 ">
+    <div className="w-full pb-12">
+      <div className="max-w-6xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+      
       
       {/* LEFT SIDE – IMAGE + THUMBNAILS */}
       <div className="space-y-4">
@@ -195,10 +197,25 @@ export default function ProductDetailsClient({ id}: ProductDetailsClientProps) {
 
         {/* ACTION BUTTONS */}
         <div className="flex gap-4">
-          <button className="flex-1 h-14 bg-white border-2 border-black rounded-lg font-semibold hover:bg-gray-100">
-            Add to Wishlist
+          <button 
+            onClick={() => toggleWishlist(product.id)}
+            className="flex-1 h-14 bg-white border-2 border-black rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+          >
+            {wishlist.includes(product.id) ? "Remove from Wishlist" : "Add to Wishlist"}
           </button>
-          <button className="flex-1 h-14 bg-black text-white rounded-lg font-semibold hover:bg-gray-800">
+          <button 
+            onClick={() => {
+              addToCart({
+                id: product.id,
+                title: product.title,
+                price: discountedPrice ? parseFloat(discountedPrice) : product.price,
+                image: product.thumbnail,
+                quantity: quantity
+              });
+              router.push('/cart');
+            }}
+            className="flex-1 h-14 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+          >
             Add to Cart
           </button>
         </div>
@@ -233,13 +250,7 @@ export default function ProductDetailsClient({ id}: ProductDetailsClientProps) {
           </div>
         </div>
       </div>
-     
+      </div>
     </div>
-    
-         {/* <div className="bg-black">
-      
-        <DetailsSection/>
-      </div> */}
-     </div>
   );
 }
