@@ -23,7 +23,6 @@ interface Product {
 
 interface CategoryPageClientProps {
   category: string;
-  id: string;
 }
 
 
@@ -121,7 +120,7 @@ console.log("res",res)
         {/* Sidebar */}
         <div className="w-[16rem] h-[47.5rem]">
           <FilterSidebar
-            products={products as Product[] || []}
+            products={products}
             selectedBrands={selectedBrands}
             setSelectedBrands={setSelectedBrands}
           />

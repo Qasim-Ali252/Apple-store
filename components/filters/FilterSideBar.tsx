@@ -3,7 +3,18 @@
 import React from "react";
 import FilterSection from "./FilterSection";
 
-const CheckboxItem = ({ label, checked, onChange }) => (
+interface Product {
+  brand: string;
+  [key: string]: any;
+}
+
+interface CheckboxItemProps {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}
+
+const CheckboxItem: React.FC<CheckboxItemProps> = ({ label, checked, onChange }) => (
   <label
     className="flex items-center gap-2 text-sm cursor-pointer px-3 py-2 rounded transition-all duration-200 "
      
@@ -13,7 +24,13 @@ const CheckboxItem = ({ label, checked, onChange }) => (
   </label>
 );
 
-const FilterSideBar = ({ products=[], selectedBrands, setSelectedBrands }) => {
+interface FilterSideBarProps {
+  products: Product[];
+  selectedBrands: string[];
+  setSelectedBrands: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const FilterSideBar: React.FC<FilterSideBarProps> = ({ products=[], selectedBrands, setSelectedBrands }) => {
   // Get unique brands from products passed from page.tsx
   const brands = Array.from(new Set(products.map((p) => p.brand)));
 
