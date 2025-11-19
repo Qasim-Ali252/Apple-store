@@ -1,5 +1,4 @@
 // app/products/[category]/[id]/page.tsx
-import Footer from "@/components/Footer";
 import ProductDetailsClient from "./ProductDetailsClient";
 import Reviews from "./reviews";
 
@@ -12,28 +11,14 @@ interface PageProps {
 
 
 export default async function ProductPage({ params }: PageProps) {
-  const { id, category } = await params;
-
-  // Fetch product title on the server
-  const product = await fetch(`https://dummyjson.com/products/${id}`)
-    .then((res) => res.json());
+  const { id } = await params;
 
   return (
     <>
-    <ProductDetailsClient
-      id={id}
-      category={category}
-      productName={product.title}
-      description={product.description}
-      rating={product.rating}
-      reviews={product.reviews}
-
-    />
-        <div>
-      {/* product details */}
-      <Reviews id={id} />
-    </div>
-    {/* <div><Footer /></div> */}
+      <ProductDetailsClient id={id} />
+      <div>
+        <Reviews id={id} />
+      </div>
     </>
   );
 }

@@ -75,7 +75,7 @@ const CategoryList: React.FC = () => {
         {visibleCategories.map((category, index) => (
           <CategoryCard
             key={index}
-            imageSrc={category.imageSrc}
+            imageSrc={category.imageSrc ?? '<GoTools/>'}
             icon={category.icon}
             label={category.label}
           
