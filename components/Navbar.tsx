@@ -79,7 +79,7 @@ const Navbar = () => {
   return (
     <>
     {/* Navbar */}
-    <nav className="w-full flex items-center px-4 md:px-8 py-4 bg-white shadow-md justify-between h-[5.5rem] relative z-20">
+    <nav className="w-full flex max-w-[1800px] xl:w-[90%] mx-auto items-center xl:px-0 px-8 bg-white justify-between h-[5.5rem] relative z-20">
 
       {/* Logo */}
       <div className="flex-shrink-0">
@@ -141,7 +141,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Nav Links */}
-        <div className="flex items-center gap-[3.25rem]">
+        <div className="flex items-center xl:gap-[3.25rem] gap-11">
           <Link href="/" className="text-black hover:text-gray-700 font-medium text-base transition-colors">
             Home
           </Link>
@@ -272,9 +272,9 @@ const Navbar = () => {
       {/* 📱 Mobile Dropdown Menu */}
       {/* Added fixed/absolute positioning and transition for slide-down effect */}
      <div
-  className={`rounded-s-xl fixed right-0 w-[22rem] bg-white z-10 transform transition-transform duration-300 ease-in-out lg:hidden ${
+  className={`rounded-s-xl absolute right-0 w-[22rem] bg-white z-10 transform transition-transform duration-300 ease-in-out lg:hidden ${
     // The key change is using h-screen (100vh) and offsetting the top margin
-    isOpen ? "top-[5.5rem] h-[calc(100vh-5.5rem)] translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
+    isOpen ? "top-[5.5rem]  translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
   }`}
 >
         <div className="flex flex-col p-6 space-y-6">
@@ -376,10 +376,10 @@ const Navbar = () => {
             {user ? (
               <>
                 <div className="border-t border-gray-200 pt-4">
-                  <div className="px-2 mb-3">
+                  {/* <div className="px-2 mb-3">
                     <p className="text-xs text-gray-500">Signed in as</p>
                     <p className="text-sm font-semibold text-gray-900 truncate">{user.email}</p>
-                  </div>
+                  </div> */}
                   
                   <button
                     onClick={() => {

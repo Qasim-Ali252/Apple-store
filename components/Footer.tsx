@@ -1,56 +1,101 @@
-import React from 'react'
 import Link from "next/link";
+
 const Footer = () => {
   return (
-    <div className='w-[90rem] h-[31.5rem] bg-black gap-6 pt-[6.5rem] pr-[10rem] pb-[6.5rem] pl-[10rem]'>
-        <div className='w-[70rem] h-[16rem] flex '>
-           {/* cyber */}
-           <div>
-            <Link href="/">
-           
-            <div>  <img className=' mb-6 w-[65.4px] h-[22.87px]' src="/logofooter.png" alt="" /> </div>
-              </Link>
-            <div className='text-[14px] leading-[171%] text-medium tracking-[0%] font-medium text-[#CFCFCF] w-[26rem] h-[6rem] '>We are a residential interior design firm located in Portland. Our boutique-studio offers more than</div>
-           </div>
-           {/* lists */}
-             <div className='ml-[113px] w-[38rem] h-[16rem] justify-between flex'>
-               <div className='w-[18rem] h-[16rem] gap-2'>
-                <span className='font-semibold text-[16px] leading-4 text-white'>Services</span>
-                <ul className='text-[14px] font-normal leading-8  text-[#CFCFCF] '>
-                    <li>Bonus program</li>
-                    <li>Gift cards</li>
-                    <li>Credit and payment</li>
-                    <li>Service contracts</li>
-                    <li>Non-cash account</li>
-                    <li>Payment</li>
-                </ul>
-             </div>
-
-             <div className='w-[18rem] h-[16rem] gap-2'>
-                <span  className='font-semibold text-[16px] leading-4 text-white'>Assistance to the buyer</span>
-                <ul className='text-[14px] font-normal leading-8  text-[#CFCFCF] '>
-                    <li>Find an order</li>
-                    <li>Terms of delivery</li>
-                    <li>Exchange and return of goods</li>
-                    <li>Guarantee</li>
-                    <li>Frequently asked questions</li>
-                    <li>Terms of use of the site</li>
-                </ul>
-             </div>
-             </div>
+    <footer className='w-full bg-black py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-40'>
+      <div className='max-w-7xl mx-auto'>
+        {/* Main Content */}
+        <div className='flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-16 mb-8 lg:mb-12'>
+          
+          {/* Brand Section */}
+          <div className='flex-1 max-w-md'>
+            <Link href="/" className="inline-block mb-4 lg:mb-6">
+              <img 
+                className='w-16 h-auto sm:w-[65.4px]' 
+                src="/logofooter.png" 
+                alt="Cyber Logo" 
+              />
+            </Link>
+            <p className='text-sm sm:text-base leading-relaxed font-medium text-[#CFCFCF]'>
+              We are a residential interior design firm located in Portland. Our boutique-studio offers more than
+            </p>
+          </div>
+          
+          {/* Links Section */}
+          <div className='flex-1 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12'>
             
-        </div>
-        {/* links */}
+            {/* Services */}
+            <div>
+              <h3 className='font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-white'>
+                Services
+              </h3>
+              <ul className='text-sm sm:text-base space-y-2 text-[#CFCFCF]'>
+                <li className="hover:text-white transition-colors cursor-pointer">Bonus program</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Gift cards</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Credit and payment</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Service contracts</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Non-cash account</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Payment</li>
+              </ul>
+            </div>
 
-            <div className='w-[11rem] h-[1rem] flex justify-between mt-[24px] '>
-                <Link href="/https://x.com/"><img src="Twitter.png" alt="" /></Link>
-                <Link href="/"><img src="Facebook.png" alt="" /></Link>
-                <Link href="/"><img src="Tiktok.png" alt="" /></Link>
-                <Link href="/"><img src="Instagram.png" alt="" /></Link>
-                
-                
-                 </div>
-    </div>
+            {/* Assistance */}
+            <div>
+              <h3 className='font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-white'>
+                Assistance to the buyer
+              </h3>
+              <ul className='text-sm sm:text-base space-y-2 text-[#CFCFCF]'>
+                <li className="hover:text-white transition-colors cursor-pointer">Find an order</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Terms of delivery</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Exchange and return of goods</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Guarantee</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Frequently asked questions</li>
+                <li className="hover:text-white transition-colors cursor-pointer">Terms of use of the site</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        {/* Social Links */}
+        <div className='flex gap-4 sm:gap-6 pt-6 border-t border-gray-800'>
+          <Link 
+            href="https://x.com/" 
+            target="_blank"
+            className="hover:opacity-80 transition-opacity"
+          >
+            <img src="/Twitter.png" alt="Twitter" className="w-6 h-6 sm:w-8 sm:h-8" />
+          </Link>
+          <Link 
+            href="https://facebook.com/" 
+            target="_blank"
+            className="hover:opacity-80 transition-opacity"
+          >
+            <img src="/Facebook.png" alt="Facebook" className="w-6 h-6 sm:w-8 sm:h-8" />
+          </Link>
+          <Link 
+            href="https://tiktok.com/" 
+            target="_blank"
+            className="hover:opacity-80 transition-opacity"
+          >
+            <img src="/Tiktok.png" alt="TikTok" className="w-6 h-6 sm:w-8 sm:h-8" />
+          </Link>
+          <Link 
+            href="https://instagram.com/" 
+            target="_blank"
+            className="hover:opacity-80 transition-opacity"
+          >
+            <img src="/Instagram.png" alt="Instagram" className="w-6 h-6 sm:w-8 sm:h-8" />
+          </Link>
+        </div>
+
+        {/* Copyright */}
+        <div className='mt-8 pt-6 border-t border-gray-800 text-center'>
+          <p className='text-sm text-[#CFCFCF]'>
+            © {new Date().getFullYear()} Cyber. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </footer>
   )
 }
 
