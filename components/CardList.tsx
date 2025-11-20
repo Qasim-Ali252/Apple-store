@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useWishlist } from "@/components/WishlistContext";
+import { useUser } from "@/lib/useUser";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa"; 
 
@@ -17,6 +18,7 @@ interface CardListProps {
 
 const CardList: React.FC<CardListProps> = ({id, imageSrc, title, price, category }) => {
   const router = useRouter();
+  const user = useUser();
   const { wishlist, toggleWishlist } = useWishlist();
   const isLiked = wishlist.includes(id);
   const [productCategory, setProductCategory] = useState<string>(category || "");
@@ -38,6 +40,13 @@ const CardList: React.FC<CardListProps> = ({id, imageSrc, title, price, category
   }, [id, category]);
 
   const handleBuyNow = () => {
+    // Check if user is logged in
+    if (!user) {
+      router.push('/signin');
+      return;
+    }
+    
+    // If logged in, navigate to product page
     if (productCategory) {
       router.push(`/products/${productCategory}/${id}`);
     }

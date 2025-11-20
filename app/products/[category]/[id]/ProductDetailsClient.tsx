@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useWishlist } from "@/components/WishlistContext";
 import { useCart } from "@/app/context/CartContext";
+import { useUser } from "@/lib/useUser";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 // import DetailsSection from "@/components/DetailsSection";
@@ -27,15 +29,20 @@ interface ProductDetailsClientProps {
   id: string;
 }
 
+
+
+
 export default function ProductDetailsClient({ id}: ProductDetailsClientProps) {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<string>("");
-  const [quantity, setQuantity] = useState(1);
+  const [quantity] = useState(1);
+  
+  const router = useRouter();
+  const user = useUser();
   const { wishlist, toggleWishlist } = useWishlist();
   const { addToCart } = useCart();
-  const router = useRouter();
 
   useEffect(() => {
     async function fetchProduct() {
@@ -205,6 +212,13 @@ export default function ProductDetailsClient({ id}: ProductDetailsClientProps) {
           </button>
           <button 
             onClick={() => {
+              // Check if user is logged in
+              if (!user) {
+                router.push('/signin');
+                return;
+              }
+              
+              // If logged in, add to cart and navigate
               addToCart({
                 id: product.id,
                 title: product.title,

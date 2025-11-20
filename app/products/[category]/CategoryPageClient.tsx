@@ -3,13 +3,14 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useWishlist } from "@/components/WishlistContext";
+import { useUser } from "@/lib/useUser";
 import { CiHeart } from "react-icons/ci";
 import { FaHeart } from "react-icons/fa";
 import Pagination from "@/components/Pagination";
 import FilterSidebar from "@/components/filters/FilterSideBar";
 import CategoryTopBar from "@/components/CategoryTopBar";
-import { useRouter } from "next/navigation";
 
 interface Product {
   id: number;
@@ -25,19 +26,29 @@ interface CategoryPageClientProps {
   category: string;
 }
 
-
 export default function CategoryPageClient({ category }: CategoryPageClientProps) {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
-
+  
+  const router = useRouter();
+  const user = useUser();
   const { wishlist, toggleWishlist } = useWishlist();
   const [sortOption, setSortOption] = useState("rating");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
- const router = useRouter();
-console.log(products,"prodycts")
+
+  // Handle Buy Now with authentication check
+  const handleBuyNow = (e: React.MouseEvent, productCategory: string, productId: number) => {
+    if (!user) {
+      e.preventDefault();
+      // Redirect to login page
+      router.push('/signin');
+      return;
+    }
+    // If user is logged in, allow navigation to product page
+  };
   // Fetch products for the resolved category
   useEffect(() => {
     if (!category) return;
@@ -168,9 +179,11 @@ console.log("res",res)
                     <p className="text-center text-xl font-semibold text-black">${product.price}</p>
                   </div>
 
-                  <Link href={`/products/${encodeURIComponent(product.category)}/${product.id}`}>
-                    <button
-                     className="w-40 h-12 bg-black text-white rounded-lg text-sm font-medium">
+                  <Link 
+                    href={`/products/${encodeURIComponent(product.category)}/${product.id}`}
+                    onClick={(e) => handleBuyNow(e, product.category, product.id)}
+                  >
+                    <button className="w-40 h-12 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
                       Buy Now
                     </button>
                   </Link>
