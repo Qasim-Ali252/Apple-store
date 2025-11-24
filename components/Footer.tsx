@@ -2,13 +2,13 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className='w-full bg-black py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-40'>
+    <footer className='w-full bg-[#181313] gap-8 py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-8 lg:px-16 xl:px-40'>
       <div className='max-w-7xl mx-auto'>
         {/* Main Content */}
-        <div className='flex flex-col lg:flex-row gap-8 lg:gap-12 xl:gap-16 mb-8 lg:mb-12'>
+        <div className='flex flex-col items-center text-center md:text-left md:items-start lg:flex-row gap-8 lg:gap-12 xl:gap-16 mb-8 lg:mb-12'>
           
           {/* Brand Section */}
-          <div className='flex-1 max-w-md'>
+          <div className='flex-1 max-w-md flex flex-col items-center md:items-start'>
             <Link href="/" className="inline-block mb-4 lg:mb-6">
               <img 
                 className='w-16 h-auto sm:w-[65.4px]' 
@@ -22,10 +22,10 @@ const Footer = () => {
           </div>
           
           {/* Links Section */}
-          <div className='flex-1 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12'>
+          <div className='flex-1 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-12 w-full md:w-auto'>
             
             {/* Services */}
-            <div>
+            <div className='flex flex-col items-center md:items-start'>
               <h3 className='font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-white'>
                 Services
               </h3>
@@ -40,7 +40,7 @@ const Footer = () => {
             </div>
 
             {/* Assistance */}
-            <div>
+            <div className='flex flex-col items-center md:items-start'>
               <h3 className='font-semibold text-base sm:text-lg mb-3 sm:mb-4 text-white'>
                 Assistance to the buyer
               </h3>
@@ -57,7 +57,7 @@ const Footer = () => {
         </div>
 
         {/* Social Links */}
-        <div className='flex gap-4 sm:gap-6 pt-6 border-t border-gray-800'>
+        <div className='flex justify-center md:justify-start gap-4 sm:gap-6 pt-6 '>
           <Link 
             href="https://x.com/" 
             target="_blank"
@@ -89,7 +89,7 @@ const Footer = () => {
         </div>
 
         {/* Copyright */}
-        <div className='mt-8 pt-6 border-t border-gray-800 text-center'>
+        <div className='mt-8 pt-6 text-center'>
           <p className='text-sm text-[#CFCFCF]'>
             © {new Date().getFullYear()} Cyber. All rights reserved.
           </p>

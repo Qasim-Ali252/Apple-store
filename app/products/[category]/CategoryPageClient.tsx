@@ -37,7 +37,20 @@ export default function CategoryPageClient({ category }: CategoryPageClientProps
   const [sortOption, setSortOption] = useState("rating");
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 9;
+  const [isMobile, setIsMobile] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  
+  // Detect screen size for products per page
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+  
+  const productsPerPage = isMobile ? 8 : 9; // 2x4 on mobile, 3x3 on desktop
 
   // Handle Buy Now with authentication check
   const handleBuyNow = (e: React.MouseEvent, productCategory: string, productId: number) => {
@@ -126,10 +139,10 @@ console.log("res",res)
   }, [category, products.length]);
 
   return (
-    <div>
-      <div className="w-[69.9375rem] flex gap-6">
-        {/* Sidebar */}
-        <div className="w-[16rem] h-[47.5rem]">
+    <div className="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="flex flex-col xl:flex-row gap-6">
+        {/* Sidebar - Hidden below 1280px, shown as modal */}
+        <div className="hidden xl:block w-[16rem]">
           <FilterSidebar
             products={products}
             selectedBrands={selectedBrands}
@@ -137,67 +150,118 @@ console.log("res",res)
           />
         </div>
 
-        {/* Main */}
-        <div>
+        {/* Filter Modal for mobile/tablet - Below 1280px */}
+        {showFilters && (
+          <div className="fixed inset-0 z-50 xl:hidden">
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black bg-opacity-50"
+              onClick={() => setShowFilters(false)}
+            />
+            
+            {/* Modal Content */}
+            <div className="absolute inset-y-0 left-0 w-full max-w-sm bg-white shadow-xl overflow-y-auto">
+              <div className="p-4">
+                <div className="flex justify-between items-center mb-4">
+                  <h2 className="text-xl font-semibold">Filters</h2>
+                  <button
+                    onClick={() => setShowFilters(false)}
+                    className="text-gray-500 hover:text-black text-2xl"
+                  >
+                    ×
+                  </button>
+                </div>
+                <FilterSidebar
+                  products={products}
+                  selectedBrands={selectedBrands}
+                  setSelectedBrands={setSelectedBrands}
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Main Content */}
+        <div className="flex-1">
           <CategoryTopBar
             totalProducts={filteredProducts.length}
             sortOption={sortOption}
             setSortOption={setSortOption}
+            onFilterClick={() => setShowFilters(true)}
           />
 
-          {loading && <p className="text-gray-500">Loading products...</p>}
-          {fetchError && <p className="text-red-500">{fetchError}</p>}
+          {loading && <p className="text-gray-500 text-center py-8">Loading products...</p>}
+          {fetchError && <p className="text-red-500 text-center py-8">{fetchError}</p>}
 
-          <div className="grid grid-cols-3 gap-6 w-[52.7rem]">
+          {/* Product Grid - 2 cols mobile, 3 cols desktop */}
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mt-6">
             {visibleProducts.length > 0 ? (
               visibleProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-gray-50 relative h-[350px] flex flex-col justify-between items-center px-4 py-6 gap-4 rounded-xl shadow-sm"
+                  className="bg-gray-50 relative min-h-[300px] sm:min-h-[350px] flex flex-col justify-between items-center px-3 sm:px-4 py-4 sm:py-6 gap-3 sm:gap-4 rounded-xl shadow-sm hover:shadow-md transition-shadow"
                 >
                   <button
-                    className="absolute top-4 right-4"
+                    className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10"
                     onClick={() => toggleWishlist(product.id)}
                     aria-label={`Toggle wishlist for ${product.title}`}
                   >
                     {wishlist.includes(product.id) ? (
-                      <FaHeart size={24} color="#FF0000" />
+                      <FaHeart size={20} className="sm:w-6 sm:h-6" color="#FF0000" />
                     ) : (
-                      <CiHeart size={24} color="#2C2C2C" />
+                      <CiHeart size={20} className="sm:w-6 sm:h-6" color="#2C2C2C" />
                     )}
                   </button>
 
-                  <img src={product.thumbnail} alt={product.title} className="h-[180px] object-contain" />
+                  <img 
+                    src={product.thumbnail} 
+                    alt={product.title} 
+                    className="h-[120px] sm:h-[150px] lg:h-[180px] w-auto object-contain" 
+                  />
 
-                  <div className="flex flex-col items-center flex-grow">
+                  <div className="flex flex-col items-center flex-grow gap-1 sm:gap-2">
                     <h3
-                      className="text-center text-sm text-[#2C2C2C] leading-tight line-clamp-1 overflow-hidden"
+                      className="text-center text-xs sm:text-sm text-[#2C2C2C] leading-tight line-clamp-2 px-1"
                       title={product.title}
                     >
                       {product.title}
                     </h3>
-                    <p className="text-center text-xl font-semibold text-black">${product.price}</p>
+                    <p className="text-center text-lg sm:text-xl font-semibold text-black">
+                      ${product.price}
+                    </p>
                   </div>
 
                   <Link 
                     href={`/products/${encodeURIComponent(product.category)}/${product.id}`}
                     onClick={(e) => handleBuyNow(e, product.category, product.id)}
+                    className="w-full flex justify-center"
                   >
-                    <button className="w-40 h-12 bg-black text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">
+                    <button className="w-full  max-w-[160px] h-10 sm:h-12 bg-black text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-800 active:scale-95 transition-all">
                       Buy Now
                     </button>
                   </Link>
                 </div>
               ))
             ) : (
-              !loading && <p className="text-gray-500 text-center col-span-3">No products found...</p>
+              !loading && (
+                <p className="text-gray-500 text-center col-span-2 lg:col-span-3 py-12">
+                  No products found...
+                </p>
+              )
             )}
           </div>
         </div>
       </div>
 
+      {/* Pagination */}
       {totalPages > 1 && (
-        <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={setCurrentPage} />
+        <div className="mt-8">
+          <Pagination 
+            totalPages={totalPages} 
+            currentPage={currentPage} 
+            onPageChange={setCurrentPage} 
+          />
+        </div>
       )}
     </div>
   );

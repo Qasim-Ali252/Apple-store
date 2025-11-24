@@ -35,24 +35,28 @@ const BrandFilter: React.FC = () => {
       {/* Search Input */}
       <input
         type="text"
-        placeholder="Search"
-        className="w-full border rounded-md px-2 py-1 mb-3 text-sm"
+        placeholder="Search brands..."
+        className="w-full border border-gray-300 rounded-md px-2 sm:px-3 py-1.5 sm:py-2 mb-2 sm:mb-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-black"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
 
       {/* Brand List */}
-      <div className=" flex flex-col gap-2 max-h-60 overflow-y-auto">
+      <div className="flex flex-col gap-1 sm:gap-2 max-h-48 sm:max-h-60 overflow-y-auto scrollbar-thin">
         {filtered.map((b) => (
-          <label key={b.name} className="flex items-center gap-2">
+          <label
+            key={b.name}
+            className="flex items-center gap-2 text-xs sm:text-sm cursor-pointer px-2 sm:px-3 py-1.5 sm:py-2 rounded hover:bg-gray-50 transition-colors"
+          >
             <input
               type="checkbox"
               checked={selectedBrands.includes(b.name)}
               onChange={() => toggleBrand(b.name)}
+              className="accent-black w-4 h-4"
             />
-            <span className="flex gap-1 w-full text-sm">
+            <span className="flex gap-1 w-full">
               {b.name}
-              <span className="text-gray-400">{b.count}</span>
+              <span className="text-gray-400">({b.count})</span>
             </span>
           </label>
         ))}

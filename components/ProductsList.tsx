@@ -8,32 +8,46 @@ interface ProductsListProps {
   textColor?: string;
 }
 
-const ProductsList: React.FC<ProductsListProps> = ({ imageSrc, title, description,bgColor='white', textColor='black' }) => {
+const ProductsList: React.FC<ProductsListProps> = ({
+  imageSrc,
+  title,
+  description,
+  bgColor = "white",
+  textColor = "black"
+}) => {
   return (
-  <div
-      className="w-[22.5rem] h-[40rem] min-w-[17.5rem] gap-[24px] flex flex-col items-center"
-      style={{ backgroundColor: bgColor }} // This is the line you need to add
+    <div
+      className="w-full h-auto min-h-[500px] sm:min-h-[600px] lg:min-h-[640px] flex flex-col items-center justify-between p-4 sm:p-6 rounded-lg hover:shadow-lg transition-shadow"
+      style={{ backgroundColor: bgColor }}
     >
-
       {/* Image */}
-      <img className="w-[22.5rem] mt-5 h-[20.44rem]" src={imageSrc} alt={title} />
+      <img
+        className="w-full max-w-[300px] sm:max-w-[350px] h-auto object-contain mt-2 sm:mt-4"
+        src={imageSrc}
+        alt={title}
+      />
 
-      <div className="w-[18.5rem] h-[13rem] gap-[16px] mt-6">
+      <div className="w-full max-w-[300px] flex flex-col gap-4 mt-4 sm:mt-6">
         {/* Title */}
-        <div className="text-[33px] font-light leading-10"
-        style={{ color: textColor }}
-        >{title}</div>
+        <h3
+          className="text-2xl sm:text-3xl font-light leading-tight text-center"
+          style={{ color: textColor }}
+        >
+          {title}
+        </h3>
 
         {/* Description */}
-        <div className="mt-4 mb-4 font-medium text-[14px] leading-6"
+        <p
+          className="font-medium text-xs sm:text-sm leading-relaxed text-center"
           style={{ color: textColor }}
         >
           {description}
-        </div>
+        </p>
 
         {/* Button */}
-        <button className="flex items-center mt-4 justify-center gap-2 px-14 py-4 border rounded-md  text-base font-medium"
-        style={{ color: textColor, borderColor: textColor }}
+        <button
+          className="flex items-center justify-center gap-2 px-8 sm:px-12 py-3 sm:py-4 border rounded-md text-sm sm:text-base font-medium hover:opacity-80 active:scale-95 transition-all mx-auto"
+          style={{ color: textColor, borderColor: textColor }}
         >
           Shop Now
         </button>

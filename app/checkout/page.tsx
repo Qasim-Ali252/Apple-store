@@ -161,18 +161,18 @@ const CheckoutPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         
         {/* Progress Steps */}
-        <div className="flex items-center justify-center mb-12">
+        <div className="flex items-center justify-center mb-8 sm:mb-12 overflow-x-auto">
           {/* Step 1 - Address */}
-          <div className="flex items-center">
-            <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
+          <div className="flex items-center flex-shrink-0">
+            <div className={`flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full text-sm sm:text-base ${
               currentStep >= 1 ? "bg-black text-white" : "bg-gray-300 text-gray-600"
             }`}>
               {currentStep > 1 ? "✓" : "1"}
             </div>
-            <div className="ml-3">
+            <div className="ml-2 sm:ml-3 hidden sm:block">
               <div className="text-xs text-gray-500">Step 1</div>
               <div className={`text-sm font-medium ${currentStep >= 1 ? "text-black" : "text-gray-400"}`}>
                 Address
@@ -181,16 +181,16 @@ const CheckoutPage = () => {
           </div>
 
           {/* Divider */}
-          <div className={`w-24 h-0.5 mx-4 ${currentStep >= 2 ? "bg-black" : "bg-gray-300"}`}></div>
+          <div className={`w-12 sm:w-24 h-0.5 mx-2 sm:mx-4 ${currentStep >= 2 ? "bg-black" : "bg-gray-300"}`}></div>
 
           {/* Step 2 - Shipping */}
-          <div className="flex items-center">
-            <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
+          <div className="flex items-center flex-shrink-0">
+            <div className={`flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full text-sm sm:text-base ${
               currentStep >= 2 ? "bg-black text-white" : "bg-gray-300 text-gray-600"
             }`}>
               {currentStep > 2 ? "✓" : "2"}
             </div>
-            <div className="ml-3">
+            <div className="ml-2 sm:ml-3 hidden sm:block">
               <div className="text-xs text-gray-500">Step 2</div>
               <div className={`text-sm font-medium ${currentStep >= 2 ? "text-black" : "text-gray-400"}`}>
                 Shipping
@@ -199,16 +199,16 @@ const CheckoutPage = () => {
           </div>
 
           {/* Divider */}
-          <div className={`w-24 h-0.5 mx-4 ${currentStep >= 3 ? "bg-black" : "bg-gray-300"}`}></div>
+          <div className={`w-12 sm:w-24 h-0.5 mx-2 sm:mx-4 ${currentStep >= 3 ? "bg-black" : "bg-gray-300"}`}></div>
 
           {/* Step 3 - Payment */}
-          <div className="flex items-center">
-            <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
+          <div className="flex items-center flex-shrink-0">
+            <div className={`flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full text-sm sm:text-base ${
               currentStep >= 3 ? "bg-black text-white" : "bg-gray-300 text-gray-600"
             }`}>
               3
             </div>
-            <div className="ml-3">
+            <div className="ml-2 sm:ml-3 hidden sm:block">
               <div className="text-xs text-gray-500">Step 3</div>
               <div className={`text-sm font-medium ${currentStep >= 3 ? "text-black" : "text-gray-400"}`}>
                 Payment
@@ -223,7 +223,7 @@ const CheckoutPage = () => {
           {/* Step 1: Address Selection */}
           {currentStep === 1 && (
             <div>
-              <h2 className="text-2xl font-semibold mb-6">Select Address</h2>
+              <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Select Address</h2>
               
               {!showAddressForm ? (
                 <>
@@ -231,40 +231,40 @@ const CheckoutPage = () => {
                     {addresses.map((address) => (
                       <div
                         key={address.id}
-                        className={`relative p-6 border-2 rounded-lg cursor-pointer transition-all ${
+                        className={`relative p-4 sm:p-6 border-2 rounded-lg cursor-pointer transition-all ${
                           selectedAddress === address.id
                             ? "border-black bg-gray-50"
                             : "border-gray-200 hover:border-gray-300"
                         }`}
                         onClick={() => setSelectedAddress(address.id)}
                       >
-                        <div className="flex items-start">
+                        <div className="flex items-start gap-3 sm:gap-4">
                           {/* Radio Button */}
-                          <div className="flex items-center h-6">
+                          <div className="flex items-center h-6 flex-shrink-0">
                             <input
                               type="radio"
                               checked={selectedAddress === address.id}
                               onChange={() => setSelectedAddress(address.id)}
-                              className="w-5 h-5 accent-black"
+                              className="w-4 h-4 sm:w-5 sm:h-5 accent-black"
                             />
                           </div>
 
                           {/* Address Details */}
-                          <div className="ml-4 flex-1">
-                            <div className="flex items-center gap-3 mb-2">
-                              <h3 className="font-semibold text-lg">{address.name}</h3>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
+                              <h3 className="font-semibold text-base sm:text-lg">{address.name}</h3>
                               {address.isDefault && (
-                                <span className="px-3 py-1 bg-black text-white text-xs rounded">
+                                <span className="px-2 sm:px-3 py-0.5 sm:py-1 bg-black text-white text-xs rounded">
                                   Default
                                 </span>
                               )}
                             </div>
-                            <p className="text-gray-600 mb-1">{address.fullAddress}</p>
-                            <p className="text-gray-500">{address.phone}</p>
+                            <p className="text-sm sm:text-base text-gray-600 mb-1">{address.fullAddress}</p>
+                            <p className="text-sm sm:text-base text-gray-500">{address.phone}</p>
                           </div>
 
                           {/* Edit & Delete Icons */}
-                          <div className="flex gap-3 ml-4">
+                          <div className="flex gap-2 sm:gap-3 flex-shrink-0">
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -426,7 +426,7 @@ const CheckoutPage = () => {
           {/* Step 2: Shipping */}
           {currentStep === 2 && (
             <div>
-              <h2 className="text-2xl font-semibold mb-6">Select Shipping Method</h2>
+              <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Select Shipping Method</h2>
               <div className="space-y-4">
                 {/* Standard Delivery */}
                 <div 
@@ -528,11 +528,11 @@ const CheckoutPage = () => {
 
           {/* Step 3: Payment */}
           {currentStep === 3 && (
-            <div className="grid md:grid-cols-[1fr_1.5fr] gap-8">
+            <div className="flex flex-col lg:grid lg:grid-cols-[1fr_1.5fr] gap-6 lg:gap-8">
               
               {/* Left Side - Summary */}
               <div>
-                <h2 className="text-2xl font-semibold mb-6">Summary</h2>
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Summary</h2>
                 
                 {/* Cart Items */}
                 <div className="space-y-3 mb-6">
@@ -598,13 +598,13 @@ const CheckoutPage = () => {
 
               {/* Right Side - Payment Form */}
               <div>
-                <h2 className="text-2xl font-semibold mb-6">Payment</h2>
+                <h2 className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6">Payment</h2>
                 
                 {/* Payment Method Tabs */}
-                <div className="flex gap-4 mb-6 border-b">
+                <div className="flex gap-2 sm:gap-4 mb-6 border-b overflow-x-auto scrollbar-hide">
                   <button
                     onClick={() => setSelectedPayment("credit")}
-                    className={`pb-3 px-4 font-medium transition-colors ${
+                    className={`pb-3 px-3 sm:px-4 font-medium text-sm sm:text-base whitespace-nowrap transition-colors ${
                       selectedPayment === "credit"
                         ? "border-b-2 border-black text-black"
                         : "text-gray-400 hover:text-gray-600"
@@ -614,7 +614,7 @@ const CheckoutPage = () => {
                   </button>
                   <button
                     onClick={() => setSelectedPayment("paypal")}
-                    className={`pb-3 px-4 font-medium transition-colors ${
+                    className={`pb-3 px-3 sm:px-4 font-medium text-sm sm:text-base whitespace-nowrap transition-colors ${
                       selectedPayment === "paypal"
                         ? "border-b-2 border-black text-black"
                         : "text-gray-400 hover:text-gray-600"
@@ -624,7 +624,7 @@ const CheckoutPage = () => {
                   </button>
                   <button
                     onClick={() => setSelectedPayment("paypal-credit")}
-                    className={`pb-3 px-4 font-medium transition-colors ${
+                    className={`pb-3 px-3 sm:px-4 font-medium text-sm sm:text-base whitespace-nowrap transition-colors ${
                       selectedPayment === "paypal-credit"
                         ? "border-b-2 border-black text-black"
                         : "text-gray-400 hover:text-gray-600"
@@ -762,16 +762,16 @@ const CheckoutPage = () => {
           )}
 
           {/* Navigation Buttons */}
-          <div className={`flex gap-4 mt-12 ${currentStep === 3 ? "md:col-start-2" : ""}`}>
+          <div className={`flex flex-col sm:flex-row gap-3 sm:gap-4 mt-8 sm:mt-12 ${currentStep === 3 ? "lg:col-start-2" : ""}`}>
             <button
               onClick={handleBack}
-              className="flex-1 py-3 border-2 border-black rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+              className="w-full sm:flex-1 py-3 sm:py-3.5 border-2 border-black rounded-lg text-sm sm:text-base font-semibold hover:bg-gray-50 active:scale-95 transition-all"
             >
               Back
             </button>
             <button
               onClick={handleNext}
-              className="flex-1 py-3 bg-black text-white rounded-lg font-semibold hover:bg-gray-800 transition-colors"
+              className="w-full sm:flex-1 py-3 sm:py-3.5 bg-black text-white rounded-lg text-sm sm:text-base font-semibold hover:bg-gray-800 active:scale-95 transition-all"
             >
               {currentStep === 3 ? "Pay" : "Next"}
             </button>

@@ -34,14 +34,16 @@ const DiscountCard: React.FC = () => {
 
 
   return (
-    <div className="w-[90rem] h-auto px-[160px] py-[56px] flex flex-col gap-[32px] bg-[#F6F6F6]">
+    <div className="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 xl:px-[160px] py-8 sm:py-10 lg:py-14 flex flex-col gap-6 sm:gap-8 bg-white">
       {/* Section Header */}
-      <div className="flex w-[1120px] h-[32px] items-center gap-[32px]">
-        <h2 className="ml-[50px] text-[24px] leading-6 font-medium text-black">Discounts up to -50%</h2>
+      <div className="flex items-center">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-medium text-black">
+          Discounts up to -50%
+        </h2>
       </div>
 
-   
-      <div className="grid grid-cols-4 gap-[32px] w-[1120px]">
+      {/* Product Grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
         {products.map((product) => (
           <CardList
             id={product.id}

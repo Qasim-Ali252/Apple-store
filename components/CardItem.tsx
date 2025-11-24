@@ -58,12 +58,12 @@ const CardItem: React.FC = () => {
   };
 
   return (
-    <div className="w-[1440px] h-[1056px] px-[160px] py-[56px] flex flex-col gap-[32px] bg-[#FFFFFF]">
+    <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-[160px] py-8 sm:py-10 lg:py-14 flex flex-col gap-6 sm:gap-8 bg-white">
       {/* Navbar */}
-      <div className="flex w-[1120px] h-[32px] items-center gap-[32px]">
+      <div className="flex items-center gap-4 sm:gap-6 lg:gap-8 overflow-x-auto scrollbar-hide">
         <button
           onClick={() => handleTabChange("new")}
-          className={`font-medium pb-1 ${
+          className={`font-medium pb-1 whitespace-nowrap text-sm sm:text-base ${
             activeTab === "new"
               ? "text-black border-b-[2px] border-black"
               : "text-[#9D9D9D] hover:text-black"
@@ -74,7 +74,7 @@ const CardItem: React.FC = () => {
 
         <button
           onClick={() => handleTabChange("bestseller")}
-          className={`font-medium pb-1 ${
+          className={`font-medium pb-1 whitespace-nowrap text-sm sm:text-base ${
             activeTab === "bestseller"
               ? "text-black border-b-[2px] border-black"
               : "text-[#9D9D9D] hover:text-black"
@@ -85,7 +85,7 @@ const CardItem: React.FC = () => {
 
         <button
           onClick={() => handleTabChange("featured")}
-          className={`font-medium pb-1 ${
+          className={`font-medium pb-1 whitespace-nowrap text-sm sm:text-base ${
             activeTab === "featured"
               ? "text-black border-b-[2px] border-black"
               : "text-[#9D9D9D] hover:text-black"
@@ -96,7 +96,7 @@ const CardItem: React.FC = () => {
       </div>
 
       {/* Product Grid */}
-      <div className="grid grid-cols-4 gap-[32px] w-[1120px]">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6 lg:gap-8">
         {displayedProducts.length > 0 ? (
           displayedProducts.map((product) => (
             <CardList
@@ -109,7 +109,7 @@ const CardItem: React.FC = () => {
             />
           ))
         ) : (
-          <p className="text-gray-500 text-center col-span-4">
+          <p className="text-gray-500 text-center col-span-full">
             Loading products...
           </p>
         )}

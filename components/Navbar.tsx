@@ -79,7 +79,7 @@ const Navbar = () => {
   return (
     <>
     {/* Navbar */}
-    <nav className="w-full flex max-w-[1800px] xl:w-[90%] mx-auto items-center xl:px-0 px-8 bg-white justify-between h-[5.5rem] relative z-20">
+    <nav className="w-full flex max-w-[1800px] xl:w-[90%] mx-auto items-center xl:px-0 px-8 bg-white justify-between h-[5.5rem] relative z-20 border-b lg:border-b-0 border-gray-200">
 
       {/* Logo */}
       <div className="flex-shrink-0">
@@ -272,9 +272,9 @@ const Navbar = () => {
       {/* 📱 Mobile Dropdown Menu */}
       {/* Added fixed/absolute positioning and transition for slide-down effect */}
      <div
-  className={`rounded-s-xl absolute right-0 w-[22rem] bg-white z-10 transform transition-transform duration-300 ease-in-out lg:hidden ${
+  className={`rounded-s-xl absolute right-0 w-[80%] bg-white z-10 transform transition-transform duration-300 ease-in-out lg:hidden ${
     // The key change is using h-screen (100vh) and offsetting the top margin
-    isOpen ? "top-[5.5rem]  translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
+    isOpen ? "top-[5.5rem]  translate-x-0 opacity-100" : "opacity-0 pointer-events-none"
   }`}
 >
         <div className="flex flex-col p-6 space-y-6">

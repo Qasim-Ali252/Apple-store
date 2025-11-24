@@ -15,11 +15,13 @@ interface CheckboxItemProps {
 }
 
 const CheckboxItem: React.FC<CheckboxItemProps> = ({ label, checked, onChange }) => (
-  <label
-    className="flex items-center gap-2 text-sm cursor-pointer px-3 py-2 rounded transition-all duration-200 "
-     
-  >
-    <input type="checkbox" checked={checked} onChange={onChange} className="accent-black" />
+  <label className="flex items-center gap-2 text-xs sm:text-sm cursor-pointer px-2 sm:px-3 py-1.5 sm:py-2 rounded transition-all duration-200 hover:bg-gray-50">
+    <input 
+      type="checkbox" 
+      checked={checked} 
+      onChange={onChange} 
+      className="accent-black w-4 h-4" 
+    />
     <span>{label}</span>
   </label>
 );
@@ -46,10 +48,10 @@ const FilterSideBar: React.FC<FilterSideBarProps> = ({ products=[], selectedBran
   };
 
   return (
-    <aside className="w-[16rem]  bg-white  p-4 flex flex-col gap-4">
+    <aside className="w-full lg:w-[16rem] bg-white rounded-lg lg:rounded-none p-3 sm:p-4 flex flex-col gap-3 sm:gap-4 shadow-sm lg:shadow-none">
       {/* Brand Filter */}
-      <FilterSection  title=" Brands" >
-        <div className="flex flex-col gap-2">
+      <FilterSection title="Brands">
+        <div className="flex flex-col gap-1 sm:gap-2">
           {brands.map((brand) => (
             <CheckboxItem
               key={brand}
@@ -57,37 +59,39 @@ const FilterSideBar: React.FC<FilterSideBarProps> = ({ products=[], selectedBran
               checked={selectedBrands.includes(brand)}
               onChange={() => handleBrandChange(brand)}
             />
-              
           ))}
-              
         </div>
       </FilterSection>
 
       {/* Static filters */}
       <FilterSection title="Battery capacity">
-        <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-2">
-            <input type="checkbox" className="accent-black" /> <span>3000–4000 mAh</span>
+        <div className="flex flex-col gap-1 sm:gap-2">
+          <label className="flex items-center gap-2 text-sm cursor-pointer">
+            <input type="checkbox" className="accent-black" />
+            <span>3000–4000 mAh</span>
           </label>
-          <label className="flex items-center gap-2">
-            <input type="checkbox" className="accent-black" /> <span>4000–5000 mAh</span>
+          <label className="flex items-center gap-2 text-sm cursor-pointer">
+            <input type="checkbox" className="accent-black" />
+            <span>4000–5000 mAh</span>
           </label>
         </div>
       </FilterSection>
 
       <FilterSection title="Screen type">
-        <div className="flex flex-col gap-2">
-          <label className="flex items-center gap-2">
-            <input type="checkbox" className="accent-black" /> <span>AMOLED</span>
+        <div className="flex flex-col gap-1 sm:gap-2">
+          <label className="flex items-center gap-2 text-sm cursor-pointer">
+            <input type="checkbox" className="accent-black" />
+            <span>AMOLED</span>
           </label>
-          <label className="flex items-center gap-2">
-            <input type="checkbox" className="accent-black" /> <span>IPS LCD</span>
+          <label className="flex items-center gap-2 text-sm cursor-pointer">
+            <input type="checkbox" className="accent-black" />
+            <span>IPS LCD</span>
           </label>
         </div>
       </FilterSection>
 
       <FilterSection title="Screen diagonal">
-        <p className="text-gray-500 text-sm">Coming soon...</p>
+        <p className="text-gray-500 text-xs sm:text-sm">Coming soon...</p>
       </FilterSection>
     </aside>
   );

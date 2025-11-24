@@ -53,17 +53,17 @@ const CardList: React.FC<CardListProps> = ({id, imageSrc, title, price, category
   };
 
   return (
-    <div className="w-[268px] h-[370px] min-w-[200px] flex flex-col justify-between items-center px-[16px] py-[24px] rounded-[9px] bg-gray-lighter shadow-sm relative">
+    <div className="w-full max-w-[250px] mx-auto h-auto min-h-[350px] sm:min-h-[370px] flex flex-col justify-between items-center px-4 py-6 rounded-[9px] bg-gray-lighter shadow-sm hover:shadow-md transition-shadow relative">
       
       {/* Heart icon (Wishlist Button) */}
       <button
-        className="absolute top-[16px] right-[16px]"
+        className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10"
         onClick={() => toggleWishlist(id)}
       >
         {isLiked ? (
-          <FaHeart size={24} color="#FF0000" /> // filled red heart when liked
+          <FaHeart size={20} className="sm:w-6 sm:h-6" color="#FF0000" />
         ) : (
-          <CiHeart size={24} color="#2C2C2C" /> // outline heart when not liked
+          <CiHeart size={20} className="sm:w-6 sm:h-6" color="#2C2C2C" />
         )}
       </button>
 
@@ -71,21 +71,21 @@ const CardList: React.FC<CardListProps> = ({id, imageSrc, title, price, category
       <img
         src={imageSrc}
         alt={title}
-        className="w-auto h-[180px] object-contain mix-blend-multiply rounded-3xl"
+        className="w-auto h-[150px] sm:h-[180px] object-contain mix-blend-multiply rounded-3xl"
       />
 
       {/* Product Title */}
-      <h3 className="text-center text-[14px] text-[#2C2C2C] leading-tight">
+      <h3 className="text-center font-medium  text-base sm:text-sm text-black leading-tight line-clamp-2 px-2">
         {title}
       </h3>
 
       {/* Product Price */}
-      <p className="text-center text-[20px] font-semibold text-black">{price}</p>
+      <p className="text-center text-lg sm:text-xl font-semibold text-black">${price}</p>
 
       {/* Buy Button */}
       <button 
         onClick={handleBuyNow}
-        className="w-[183px] h-[48px] bg-black text-white rounded-[8px] text-[14px] font-medium hover:bg-gray-800 transition-colors"
+        className="w-full max-w-[183px] h-10 sm:h-12 bg-black text-white rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-800 active:scale-95 transition-all"
       >
         Buy Now
       </button>
