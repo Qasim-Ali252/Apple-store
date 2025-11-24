@@ -1,6 +1,7 @@
 // app/layout.tsx
 "use client";
 
+import { Suspense } from "react";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import FooterWrapper from "@/components/FooterWrapper";
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="flex flex-col min-h-screen">
-        <NProgressBar />
+        <Suspense fallback={null}>
+          <NProgressBar />
+        </Suspense>
         <CartProvider>
           <WishlistProvider>
             {!isAuthPage && <Navbar />}
