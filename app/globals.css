@@ -5,6 +5,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Inter', sans-serif;
 }
@@ -34,5 +38,95 @@ body {
 
 .animate-fadeIn {
   animation: fadeInSlide 0.5s ease-out both;
+}
+
+/* NProgress Custom Styling */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  background: linear-gradient(90deg, #9333ea, #ec4899);
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  box-shadow: 0 0 20px #ec4899, 0 0 10px #9333ea, 0 2px 15px rgba(236, 72, 153, 0.5);
+}
+
+#nprogress .peg {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 120px;
+  height: 100%;
+  box-shadow: 0 0 25px #ec4899, 0 0 15px #ec4899, 0 0 10px #9333ea;
+  opacity: 1.0;
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+/* Auth Page Animations */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.5s ease-out both;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.5s ease-out both;
+  opacity: 0;
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
 }
 

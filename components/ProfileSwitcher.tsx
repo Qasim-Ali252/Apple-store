@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "@/lib/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { getSavedProfiles, removeUserProfile } from "@/lib/userProfiles";
+import { getSavedProfiles, removeUserProfile, saveUserProfile } from "@/lib/userProfiles";
 import { User, X } from "lucide-react";
 
 interface ProfileSwitcherProps {
@@ -34,7 +34,11 @@ export default function ProfileSwitcher({ onClose, currentUserEmail }: ProfileSw
     setError("");
 
     try {
-      await signInWithEmailAndPassword(auth, selectedProfile, password);
+      const userCredential = await signInWithEmailAndPassword(auth, selectedProfile, password);
+      
+      // Save/update user profile in localStorage
+      saveUserProfile(userCredential.user);
+      
       onClose();
       router.push("/");
     } catch (err: any) {

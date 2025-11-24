@@ -189,7 +189,6 @@ const Navbar = () => {
         <div className="relative">
           <button
             onClick={() => setShowUserMenu(!showUserMenu)}
-            onBlur={() => setTimeout(() => setShowUserMenu(false), 200)}
             className="flex items-center gap-2"
           >
             <User className="w-6 h-6 text-gray-700 cursor-pointer hover:text-black" />
@@ -197,65 +196,72 @@ const Navbar = () => {
 
           {/* User Dropdown Menu */}
           {showUserMenu && (
-            <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-              {user ? (
-                <>
-                  {/* User Info */}
-                  <div className="px-4 py-3 border-b border-gray-200">
-                    <p className="text-sm font-semibold text-gray-900">Signed in as</p>
-                    <p className="text-sm text-gray-600 truncate">{user.email}</p>
-                  </div>
+            <>
+              {/* Backdrop to close menu */}
+              <div 
+                className="fixed inset-0 z-40" 
+                onClick={() => setShowUserMenu(false)}
+              />
+              <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
+                {user ? (
+                  <>
+                    {/* User Info */}
+                    <div className="px-4 py-3 border-b border-gray-200">
+                      <p className="text-sm font-semibold text-gray-900">Signed in as</p>
+                      <p className="text-sm text-gray-600 truncate">{user.email}</p>
+                    </div>
 
-                  {/* Menu Items */}
-                  <button
-                    onClick={() => {
-                      setShowUserMenu(false);
-                      router.push('/profile');
-                    }}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    My Profile
-                  </button>
+                    {/* Menu Items */}
+                    <button
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        router.push('/profile');
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      My Profile
+                    </button>
 
-                  <button
-                    onClick={handleSwitchAccount}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    Switch Account
-                  </button>
+                    <button
+                      onClick={handleSwitchAccount}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      Switch Account
+                    </button>
 
-                  <div className="border-t border-gray-200 my-1"></div>
+                    <div className="border-t border-gray-200 my-1"></div>
 
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    onClick={() => {
-                      setShowUserMenu(false);
-                      router.push('/signin');
-                    }}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    Sign In
-                  </button>
-                  <button
-                    onClick={() => {
-                      setShowUserMenu(false);
-                      router.push('/signup');
-                    }}
-                    className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
-                  >
-                    Sign Up
-                  </button>
-                </>
-              )}
-            </div>
+                    <button
+                      onClick={handleLogout}
+                      className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        router.push('/signin');
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      Sign In
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowUserMenu(false);
+                        router.push('/signup');
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                    >
+                      Sign Up
+                    </button>
+                  </>
+                )}
+              </div>
+            </>
           )}
         </div>
       </div>

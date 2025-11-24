@@ -56,8 +56,9 @@ export default function CategoryPageClient({ category }: CategoryPageClientProps
   const handleBuyNow = (e: React.MouseEvent, productCategory: string, productId: number) => {
     if (!user) {
       e.preventDefault();
-      // Redirect to login page
-      router.push('/signin');
+      // Redirect to login page with current page as redirect URL
+      const currentPath = window.location.pathname;
+      router.push(`/signin?redirect=${encodeURIComponent(currentPath)}`);
       return;
     }
     // If user is logged in, allow navigation to product page

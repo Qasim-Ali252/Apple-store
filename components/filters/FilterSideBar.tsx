@@ -34,10 +34,12 @@ interface FilterSideBarProps {
 
 const FilterSideBar: React.FC<FilterSideBarProps> = ({ products=[], selectedBrands, setSelectedBrands }) => {
   // Get unique brands from products passed from page.tsx
-  const brands = Array.from(new Set(products.map((p) => p.brand)));
+  const brands = Array.from(new Set(products.map((p) => p.brand).filter(Boolean)));
 
   const brandCounts = products.reduce((acc: Record<string, number>, product) => {
-    acc[product.brand] = (acc[product.brand] || 0) + 1;
+    if (product.brand) {
+      acc[product.brand] = (acc[product.brand] || 0) + 1;
+    }
     return acc;
   }, {} as Record<string, number>);
 
@@ -66,27 +68,23 @@ const FilterSideBar: React.FC<FilterSideBarProps> = ({ products=[], selectedBran
       {/* Static filters */}
       <FilterSection title="Battery capacity">
         <div className="flex flex-col gap-1 sm:gap-2">
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
-            <input type="checkbox" className="accent-black" />
-            <span>3000–4000 mAh</span>
-          </label>
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
-            <input type="checkbox" className="accent-black" />
-            <span>4000–5000 mAh</span>
-          </label>
+          {["3000–4000 mAh", "4000–5000 mAh"].map((capacity) => (
+            <label key={capacity} className="flex items-center gap-2 text-sm cursor-pointer">
+              <input type="checkbox" className="accent-black" />
+              <span>{capacity}</span>
+            </label>
+          ))}
         </div>
       </FilterSection>
 
       <FilterSection title="Screen type">
         <div className="flex flex-col gap-1 sm:gap-2">
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
-            <input type="checkbox" className="accent-black" />
-            <span>AMOLED</span>
-          </label>
-          <label className="flex items-center gap-2 text-sm cursor-pointer">
-            <input type="checkbox" className="accent-black" />
-            <span>IPS LCD</span>
-          </label>
+          {["AMOLED", "IPS LCD"].map((screenType) => (
+            <label key={screenType} className="flex items-center gap-2 text-sm cursor-pointer">
+              <input type="checkbox" className="accent-black" />
+              <span>{screenType}</span>
+            </label>
+          ))}
         </div>
       </FilterSection>
 

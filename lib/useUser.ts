@@ -3,11 +3,11 @@
 
 import { useEffect, useState } from "react";
 import { auth } from "@/lib/firebase";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { saveUserProfile } from "@/lib/userProfiles";
 
 export function useUser() {
-  const [user, setUser] = useState(auth.currentUser);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {

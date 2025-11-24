@@ -213,7 +213,8 @@ export default function ProductDetailsClient({ id}: ProductDetailsClientProps) {
           <button 
             onClick={() => {
               if (!user) {
-                router.push('/signin');
+                const currentPath = window.location.pathname;
+                router.push(`/signin?redirect=${encodeURIComponent(currentPath)}`);
                 return;
               }
               

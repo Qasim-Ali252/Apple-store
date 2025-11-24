@@ -18,7 +18,7 @@ const SaleCard = () => {
       />
 
       {/* CENTER TEXT BLOCK */}
-      <div className="relative lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 w-full lg:w-[35.6875rem] flex flex-col justify-center items-center px-4 py-16 sm:py-16 lg:py-0 text-center mt-8 sm:absolute top-3 ">
+      <div className="relative lg:absolute lg:top-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2 w-full lg:w-[35.6875rem] flex flex-col justify-center items-center px-4 py-16 sm:py-16 lg:py-0 text-center mt-8 sm:absolute top-3 gap-2 ">
 
         <h1 className="text-4xl sm:text-5xl lg:text-[72px] leading-tight lg:leading-[72px] font-extralight text-white mb-1">
           Big Summer <span className="font-light">Sale</span>
