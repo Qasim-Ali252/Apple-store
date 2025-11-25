@@ -38,8 +38,8 @@ const ProductsList: React.FC<ProductsListProps> = ({
 
         {/* Description */}
         <p
-          className="font-medium text-xs   sm:text-sm leading-relaxed text-center"
-          style={{ color: textColor }}
+          className="font-medium text-xs sm:text-sm leading-relaxed text-center"
+          style={{ color: "#909090" }}
         >
           {description}
         </p>
