@@ -39,9 +39,9 @@ const Products = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
-    <div className="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div className="w-full px-4 sm:px-6 lg:px-0 py-6 sm:py-8">
       {/* Desktop Grid */}
-      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 ">
+      <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4">
         {productData.map((product, index) => (
           <ProductsList
             key={index}
