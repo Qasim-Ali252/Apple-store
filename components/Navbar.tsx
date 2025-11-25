@@ -117,7 +117,7 @@ const Navbar = () => {
                   {searchResults.map((product) => (
                     <div
                       key={product.id}
-                      onClick={() => handleProductClick(product.category, product.id)}
+                      onMouseDown={() => handleProductClick(product.category, product.id)}
                       className="flex items-center gap-3 p-3 hover:bg-gray-50 cursor-pointer transition-colors"
                     >
                       <img
@@ -306,7 +306,7 @@ const Navbar = () => {
                     {searchResults.map((product) => (
                       <div
                         key={product.id}
-                        onClick={() => {
+                        onMouseDown={() => {
                           handleProductClick(product.category, product.id);
                           toggleMenu();
                         }}
