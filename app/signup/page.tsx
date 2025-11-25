@@ -58,6 +58,20 @@ function SignUpForm() {
       </div>
 
       <div className="w-full max-w-md relative z-10 animate-fadeInUp">
+        {/* Domino Spinner */}
+        <div className="flex justify-center mb-6 animate-fadeIn">
+          <div className="domino-spinner">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
         {/* Logo/Brand */}
         <div className="text-center mb-8 animate-fadeIn">
           <h1 className="text-4xl font-bold text-white mb-2">Create Account</h1>
