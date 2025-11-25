@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/lib/useUser";
+import { useOrders } from "@/app/context/OrderContext";
 import { auth } from "@/lib/firebase";
 import { signOut, updateProfile, updatePassword } from "firebase/auth";
 import { User, Mail, ShoppingBag, Heart, Settings, LogOut } from "lucide-react";
@@ -10,6 +11,7 @@ import { User, Mail, ShoppingBag, Heart, Settings, LogOut } from "lucide-react";
 export default function ProfilePage() {
   const user = useUser();
   const router = useRouter();
+  const { orders, getOrderCount } = useOrders();
   const [activeTab, setActiveTab] = useState("overview");
   const [displayName, setDisplayName] = useState(user?.displayName || "");
   const [newPassword, setNewPassword] = useState("");
@@ -206,7 +208,7 @@ export default function ProfilePage() {
                       <ShoppingBag className="w-5 h-5 text-gray-600" />
                       <h3 className="font-semibold">Total Orders</h3>
                     </div>
-                    <p className="text-2xl font-bold text-gray-900">0</p>
+                    <p className="text-2xl font-bold text-gray-900">{getOrderCount()}</p>
                   </div>
 
                   <div className="p-4 border border-gray-200 rounded-lg">
@@ -230,17 +232,65 @@ export default function ProfilePage() {
               <div>
                 <h2 className="text-xl font-semibold mb-6">Order History</h2>
                 
-                <div className="text-center py-12">
-                  <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">No orders yet</h3>
-                  <p className="text-gray-600 mb-6">Start shopping to see your orders here</p>
-                  <button
-                    onClick={() => router.push("/")}
-                    className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
-                  >
-                    Start Shopping
-                  </button>
-                </div>
+                {orders.length === 0 ? (
+                  <div className="text-center py-12">
+                    <ShoppingBag className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">No orders yet</h3>
+                    <p className="text-gray-600 mb-6">Start shopping to see your orders here</p>
+                    <button
+                      onClick={() => router.push("/")}
+                      className="px-6 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
+                    >
+                      Start Shopping
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {orders.map((order) => (
+                      <div key={order.id} className="border border-gray-200 rounded-lg p-6">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="font-semibold text-lg">Order #{order.id}</h3>
+                            <p className="text-sm text-gray-600">
+                              {new Date(order.date).toLocaleDateString('en-US', { 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric' 
+                              })}
+                            </p>
+                          </div>
+                          <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded">
+                            {order.status}
+                          </span>
+                        </div>
+                        
+                        <div className="space-y-3 mb-4">
+                          {order.items.map((item) => (
+                            <div key={item.id} className="flex items-center gap-4">
+                              <img src={item.image} alt={item.title} className="w-16 h-16 object-contain" />
+                              <div className="flex-1">
+                                <p className="font-medium text-sm">{item.title}</p>
+                                <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                              </div>
+                              <p className="font-semibold">${item.price.toFixed(2)}</p>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        <div className="border-t pt-4 flex justify-between items-center">
+                          <div className="text-sm text-gray-600">
+                            <p>{order.shippingMethod}</p>
+                            <p className="truncate max-w-xs">{order.shippingAddress}</p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm text-gray-600">Total</p>
+                            <p className="text-xl font-bold">${order.total.toFixed(2)}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 

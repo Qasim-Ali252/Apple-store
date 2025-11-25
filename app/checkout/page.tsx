@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "../context/CartContext";
+import { useOrders } from "../context/OrderContext";
 
 interface Address {
   id: string;
@@ -23,7 +24,8 @@ interface AddressFormData {
 
 const CheckoutPage = () => {
   const router = useRouter();
-  const { cartItems } = useCart();
+  const { cartItems, clearCart } = useCart();
+  const { addOrder } = useOrders();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedAddress, setSelectedAddress] = useState("address1");
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -49,6 +51,13 @@ const CheckoutPage = () => {
     cvv: ""
   });
 
+  const [cardErrors, setCardErrors] = useState({
+    cardholderName: "",
+    cardNumber: "",
+    expDate: "",
+    cvv: ""
+  });
+
   // Sample addresses - you can replace with real data
   const [addresses, setAddresses] = useState<Address[]>([
     {
@@ -67,7 +76,119 @@ const CheckoutPage = () => {
     }
   ]);
 
+  const validateCardData = () => {
+    const errors = {
+      cardholderName: "",
+      cardNumber: "",
+      expDate: "",
+      cvv: ""
+    };
+
+    let isValid = true;
+
+    // Validate cardholder name
+    if (!cardData.cardholderName.trim()) {
+      errors.cardholderName = "Cardholder name is required";
+      isValid = false;
+    } else if (cardData.cardholderName.trim().length < 3) {
+      errors.cardholderName = "Name must be at least 3 characters";
+      isValid = false;
+    }
+
+    // Validate card number
+    const cardNumberDigits = cardData.cardNumber.replace(/\s/g, '');
+    if (!cardNumberDigits) {
+      errors.cardNumber = "Card number is required";
+      isValid = false;
+    } else if (cardNumberDigits.length !== 16) {
+      errors.cardNumber = "Card number must be 16 digits";
+      isValid = false;
+    }
+
+    // Validate expiration date
+    if (!cardData.expDate) {
+      errors.expDate = "Expiration date is required";
+      isValid = false;
+    } else if (cardData.expDate.length !== 5) {
+      errors.expDate = "Invalid format (MM/YY)";
+      isValid = false;
+    } else {
+      const [month, year] = cardData.expDate.split('/');
+      const currentDate = new Date();
+      const currentYear = currentDate.getFullYear() % 100;
+      const currentMonth = currentDate.getMonth() + 1;
+      
+      if (parseInt(month) < 1 || parseInt(month) > 12) {
+        errors.expDate = "Invalid month";
+        isValid = false;
+      } else if (parseInt(year) < currentYear || (parseInt(year) === currentYear && parseInt(month) < currentMonth)) {
+        errors.expDate = "Card has expired";
+        isValid = false;
+      }
+    }
+
+    // Validate CVV
+    if (!cardData.cvv) {
+      errors.cvv = "CVV is required";
+      isValid = false;
+    } else if (cardData.cvv.length !== 3) {
+      errors.cvv = "CVV must be 3 digits";
+      isValid = false;
+    }
+
+    setCardErrors(errors);
+    return isValid;
+  };
+
   const handleNext = () => {
+    // If on payment step with credit card, validate before proceeding
+    if (currentStep === 3 && selectedPayment === "credit") {
+      if (!validateCardData()) {
+        return;
+      }
+      
+      // Save order
+      const selectedAddr = addresses.find(a => a.id === selectedAddress);
+      const shippingCost = selectedShipping === "standard" ? 29 : selectedShipping === "express" ? 49 : 15;
+      const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const total = subtotal + 50 + shippingCost;
+      
+      addOrder({
+        items: cartItems,
+        total,
+        status: "Processing",
+        shippingAddress: selectedAddr?.fullAddress || "",
+        shippingMethod: selectedShipping === "standard" ? "Standard Delivery" : selectedShipping === "express" ? "Express Delivery" : "Scheduled Delivery"
+      });
+      
+      // Clear cart
+      clearCart();
+      
+      // Redirect to thank you page
+      router.push("/thank-you");
+      return;
+    }
+
+    // If on payment step with PayPal, save order and redirect
+    if (currentStep === 3 && (selectedPayment === "paypal" || selectedPayment === "paypal-credit")) {
+      const selectedAddr = addresses.find(a => a.id === selectedAddress);
+      const shippingCost = selectedShipping === "standard" ? 29 : selectedShipping === "express" ? 49 : 15;
+      const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      const total = subtotal + 50 + shippingCost;
+      
+      addOrder({
+        items: cartItems,
+        total,
+        status: "Processing",
+        shippingAddress: selectedAddr?.fullAddress || "",
+        shippingMethod: selectedShipping === "standard" ? "Standard Delivery" : selectedShipping === "express" ? "Express Delivery" : "Scheduled Delivery"
+      });
+      
+      clearCart();
+      router.push("/thank-you");
+      return;
+    }
+
     if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     }
@@ -666,10 +787,22 @@ const CheckoutPage = () => {
                         <input
                           type="text"
                           value={cardData.cardholderName}
-                          onChange={(e) => setCardData({ ...cardData, cardholderName: e.target.value })}
+                          onChange={(e) => {
+                            setCardData({ ...cardData, cardholderName: e.target.value });
+                            if (cardErrors.cardholderName) {
+                              setCardErrors({ ...cardErrors, cardholderName: "" });
+                            }
+                          }}
                           placeholder="Enter cardholder name"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                            cardErrors.cardholderName 
+                              ? "border-red-500 focus:ring-red-500" 
+                              : "border-gray-300 focus:ring-black"
+                          }`}
                         />
+                        {cardErrors.cardholderName && (
+                          <p className="text-red-500 text-sm mt-1">{cardErrors.cardholderName}</p>
+                        )}
                       </div>
 
                       <div>
@@ -684,11 +817,21 @@ const CheckoutPage = () => {
                             if (value.length <= 16 && /^\d*$/.test(value)) {
                               const formatted = value.match(/.{1,4}/g)?.join('  ') || value;
                               setCardData({ ...cardData, cardNumber: formatted });
+                              if (cardErrors.cardNumber) {
+                                setCardErrors({ ...cardErrors, cardNumber: "" });
+                              }
                             }
                           }}
                           placeholder="0000  0000  0000  0000"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                          className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                            cardErrors.cardNumber 
+                              ? "border-red-500 focus:ring-red-500" 
+                              : "border-gray-300 focus:ring-black"
+                          }`}
                         />
+                        {cardErrors.cardNumber && (
+                          <p className="text-red-500 text-sm mt-1">{cardErrors.cardNumber}</p>
+                        )}
                       </div>
 
                       <div className="grid grid-cols-2 gap-4">
@@ -706,11 +849,21 @@ const CheckoutPage = () => {
                                   ? `${value.slice(0, 2)}/${value.slice(2)}` 
                                   : value;
                                 setCardData({ ...cardData, expDate: formatted });
+                                if (cardErrors.expDate) {
+                                  setCardErrors({ ...cardErrors, expDate: "" });
+                                }
                               }
                             }}
                             placeholder="MM/YY"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                              cardErrors.expDate 
+                                ? "border-red-500 focus:ring-red-500" 
+                                : "border-gray-300 focus:ring-black"
+                            }`}
                           />
+                          {cardErrors.expDate && (
+                            <p className="text-red-500 text-xs mt-1">{cardErrors.expDate}</p>
+                          )}
                         </div>
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -723,11 +876,21 @@ const CheckoutPage = () => {
                               const value = e.target.value.replace(/\D/g, '');
                               if (value.length <= 3) {
                                 setCardData({ ...cardData, cvv: value });
+                                if (cardErrors.cvv) {
+                                  setCardErrors({ ...cardErrors, cvv: "" });
+                                }
                               }
                             }}
                             placeholder="123"
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                            className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 transition-all ${
+                              cardErrors.cvv 
+                                ? "border-red-500 focus:ring-red-500" 
+                                : "border-gray-300 focus:ring-black"
+                            }`}
                           />
+                          {cardErrors.cvv && (
+                            <p className="text-red-500 text-xs mt-1">{cardErrors.cvv}</p>
+                          )}
                         </div>
                       </div>
 
@@ -752,7 +915,10 @@ const CheckoutPage = () => {
                 {(selectedPayment === "paypal" || selectedPayment === "paypal-credit") && (
                   <div className="text-center py-12">
                     <p className="text-gray-500 mb-4">You will be redirected to PayPal to complete your payment</p>
-                    <button className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700">
+                    <button 
+                      onClick={() => window.open('https://www.paypal.com', '_blank')}
+                      className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 active:scale-95 transition-all"
+                    >
                       Continue with PayPal
                     </button>
                   </div>

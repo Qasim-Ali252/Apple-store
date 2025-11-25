@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import NProgressBar from "./NProgressBar";
 import { WishlistProvider } from "./WishlistContext";
 import { CartProvider } from "@/app/context/CartContext";
+import { OrderProvider } from "@/app/context/OrderContext";
 
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,11 +12,13 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
       <Suspense fallback={null}>
         <NProgressBar />
       </Suspense>
-      <CartProvider>
-        <WishlistProvider>
-          {children}
-        </WishlistProvider>
-      </CartProvider>
+      <OrderProvider>
+        <CartProvider>
+          <WishlistProvider>
+            {children}
+          </WishlistProvider>
+        </CartProvider>
+      </OrderProvider>
     </>
   );
 }
